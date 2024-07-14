@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class PropertyController extends AbstractController
 {
-    #[Route('/property', name: 'app_property')]
+    #[Route('/property', name: 'property')]
     public function index(): Response
     {
         return $this->render('property/index.html.twig', [
@@ -21,7 +21,7 @@ class PropertyController extends AbstractController
         ]);
     }
 
-    #[Route('/create', name: 'create')]
+    #[Route('/property/create', name: 'property.create')]
     public function create(Request $request, EntityManagerInterface $em)
     {
         $property = new Property();
@@ -31,9 +31,9 @@ class PropertyController extends AbstractController
         if($createPropertyForm->isSubmitted() && $createPropertyForm->isValid()) {
             $em->persist($property);
             $em->flush();
-            return this->redirectToRoute(property.index);
+            return $this->redirectToRoute('property.index');
         }
-        return $this->render('property/edit.html.twig', [
+        return $this->render('property/create.html.twig', [
             'form' => $createPropertyForm
         ]);
     }
